@@ -72,17 +72,17 @@ deploy:
   repo: https://github.com/fuzhongfeng/fuzhongfeng.github.io.git
   branch: master
 
-baidu_analytics: 41d77ee7657d4e19a7f8a6361fe2121f
+baidu_analytics: 50501430dc12a862e9fb82a90d9e33f2
 
 search:
   path: search.xml
   field: post
 
-duoshuo_shortname: zlc10
-duoshuo_share: true
-duoshuo_info:
-  ua_enable: true
-  admin_enable: false
-  user_id: 6325922180978705000
-  admin_nickname: Kevin
-use_font_lato: false
+# duoshuo_shortname: zlc10
+# duoshuo_share: true
+# duoshuo_info:
+#   ua_enable: true
+#   admin_enable: false
+#   user_id: 6325922180978705000
+#   admin_nickname: Kevin
+# use_font_lato: false
