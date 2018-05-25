@@ -1,5 +1,5 @@
 ---
-title: JavaScript-基础2
+title: JavaScript-setTimeout
 layout: post
 date: 2018-05-06 11:07:50
 categories: JavaScript
