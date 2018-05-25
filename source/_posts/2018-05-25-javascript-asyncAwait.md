@@ -5,6 +5,7 @@ date: 2018-05-24 11:02:18
 categories: JavaScript
 tags: JavaScript
 ---
+# async/await 双刃剑
 
 ## async/await：继续 promise、Generator 之后 es7 提出的异步操作的解决方案
 
