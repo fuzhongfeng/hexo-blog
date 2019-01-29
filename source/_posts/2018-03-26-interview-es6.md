@@ -2,7 +2,7 @@
 title: ES6-常用知识（未完）
 layout: post
 date: 2018-03-26 14:32:50
-categories: FJ
+categories: Interview
 tags: ES6
 ---
 

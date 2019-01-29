@@ -2,7 +2,7 @@
 title: JavaScript-AJAX
 layout: post
 date: 2018-03-26 14:30:05
-categories: FJ
+categories: Interview
 tags: JavaScript
 ---
 http://www.w3school.com.cn/jquery/ajax_ajax.asp

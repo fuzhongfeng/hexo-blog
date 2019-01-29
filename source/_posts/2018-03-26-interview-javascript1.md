@@ -2,7 +2,7 @@
 title: JavaScript-基础知识
 layout: post
 date: 2018-03-26 14:23:17
-categories: FJ
+categories: Interview
 tags: JavaScript
 ---
 

@@ -2,7 +2,7 @@
 title: JavaScript-小代码
 layout: post
 date: 2018-03-31 17:50:00
-categories: FJ
+categories: Interview
 tags: JavaScript
 ---
 

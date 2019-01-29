@@ -2,7 +2,7 @@
 title: React-基础知识
 layout: post
 date: 2017-03-26 14:22:55
-categories: FJ
+categories: Interview
 tags: React
 ---
 
