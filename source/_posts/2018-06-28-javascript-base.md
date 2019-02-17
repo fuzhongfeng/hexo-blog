@@ -1,5 +1,5 @@
 ---
-title: JavaScript-基础3
+title: JavaScript-基础
 layout: post
 date: 2018-06-28 21:54:13
 categories: JavaScript

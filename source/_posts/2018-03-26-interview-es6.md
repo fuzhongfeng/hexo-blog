@@ -1,5 +1,5 @@
 ---
-title: ES6-常用知识（未完）
+title: ES6-常用
 layout: post
 date: 2018-03-26 14:32:50
 categories: Interview
@@ -167,6 +167,6 @@ tags: ES6
     child.myMethod(2); // instance 2
     ```
 
-- * Promise 使用及原理
-- * Promise 和 async await 的关系
+- Promise 使用及原理
+- Promise 和 async await 的关系
 - 装饰器 Decorator
