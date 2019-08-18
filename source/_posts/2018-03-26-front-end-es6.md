@@ -2,8 +2,8 @@
 title: ES6-常用
 layout: post
 date: 2018-03-26 14:32:50
-categories: Interview
-tags: ES6
+categories: Front-end
+tags: Front-end
 ---
 
 ## ES6相关
