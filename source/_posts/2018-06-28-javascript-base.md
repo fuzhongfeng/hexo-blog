@@ -32,3 +32,40 @@ why ？？？
 ### 关系运算符比较时会尝试将值转为 number ，Number(null)  值为 0
 
 然而 Number(undefined) 值却为 NaN, NaN >= 0 返回 false
+
+## 函数柯里化
+
+* 创建方式：调用另一个函数并为它传入要柯里化的函数和必要参数
+```
+function curry(fn){
+  var args = Array.prototype.slice.call(arguments, 1);
+  return function(){
+      var innerArgs = Array.prototype.slice.call(arguments);
+      var finalArgs = args.concat(innerArgs);
+      return fn.apply(null, finalArgs);
+  }; 
+}
+function add(num1, num2){ // 柯里化的函数
+    return num1 + num2;
+}
+var curriedAdd = curry(add, 5);
+curriedAdd(3) // 8
+```
+
+问题：实现一个 fn 函数返回如下结果
+fn('a', 'b', 'c') // ['a', 'b', 'c']
+fn('a', 'b')('c') // ['a', 'b', 'c']
+fn('a')('b')('c') // ['a', 'b', 'c']
+fn('a')('b', 'c') // ['a', 'b', 'c']
+
+<!-- function fn() {
+    var _args = [...arguments];
+    var _adder = function() {
+        _args.push(...arguments);
+        return _adder;
+    };
+    _adder.toString = function () {
+        return _args // 返回数组时出现问题
+    }
+    return _adder;
+} -->
