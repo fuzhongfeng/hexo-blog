@@ -48,3 +48,10 @@ var str = '<div class="a0 answer-btn" style="width:94px;height:53px;z-index:2;" 
 
     * 匹配前面的一个表达式0次或者多次，等价于{0,}
     例如，/bo*/会匹配 "A ghost boooooed" 中的 'booooo' 和 "A bird warbled" 中的 'b'，但是在 "A goat grunted" 中将不会匹配任何东西
+
+### 常用正则
+1. 将 17346547310 替换为 173****7310
+```
+"17346547310".replace(/(\d{3})\d{4}(\d{4})/g, "$1****$2") // "173****7310"
+```
+$1、$2 为正则表达式()里的内容，此处分别代表前三位和后四位
