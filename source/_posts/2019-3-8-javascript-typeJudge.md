@@ -67,9 +67,9 @@ variable instanceof constructor;
 1. 这里可以关于数组的判断可以使用 Array.isArray() 来判断。支持浏览器的方法有 IE9+、Firefox4+、Safari5+、Opera10.5+、chrome。
 2. 从父级中传入的函数 f 无法判断。
 
-### 最佳方案 
-> Object.prototype.toString.call()
-* 在任何值上调用 Object 原生的方法 toString() 方法，都会返回一个[object NativeConstructorName]格式的字符串。每个类在内部都有一个[[Class]]属性，这个属性中就指定了上述字符串中的构造函数名。
+### 最佳方案 Object.prototype.toString.call()
+> 在任何值上调用 Object 原生的方法 toString() 方法，都会返回一个[object NativeConstructorName]格式的字符串。每个类在内部都有一个[[Class]]属性，这个属性中就指定了上述字符串中的构造函数名。
+
 ```
 // 字符串
 Object.prototype.toString.call('a') // "[object String]"
