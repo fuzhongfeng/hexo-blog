@@ -47,10 +47,10 @@ var debounce = function(func, wait, immediate) {
 			timer = setTimeout(() => {
                 timer = null
             }, wait)
-            callNow && func.apply(this, args)
+            if (callNow) return func.apply(this, args) // 返回值
 		} else {
 			timer = setTimeout(() => {
-                func.apply(this, args)
+                func.apply(this, args) // 这里的返回值无法取到
 			}, wait)
         }
 	}
