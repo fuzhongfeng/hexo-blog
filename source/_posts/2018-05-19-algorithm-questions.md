@@ -2,8 +2,8 @@
 title: 算法题目
 layout: post
 date: 2018-05-19 17:27:53
-categories: Algorithm
-tags: Algorithm
+categories: Data Structure And Algorithm
+tags: Data Structure And Algorithm
 ---
 
 ## 两数之和
