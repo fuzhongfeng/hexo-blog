@@ -163,11 +163,11 @@ function createAnother(original){
 不必为了指定子类的原型而调用超类的构造函数，我们所需要的无非就是超类原型的一个副本而已。本质上，就是使用寄生式继承来继承超类的原型，然后再将结果指定给子类的原型
 * 实现：
 ```
-function inheritPrototype(sub, super){
-    // var prototype = Object.assign({}, super.prototype);
-    var prototype = Object.create(super.prototype);
-    prototype.constructor = sub;
-    sub.prototype = prototype;
+function inheritPrototype(subType, superType){
+    // var prototype = Object.assign({}, superType.prototype);
+    var prototype = Object.create(superType.prototype);
+    prototype.constructor = subType;
+    subType.prototype = prototype;
 }
 
 function Super(name){

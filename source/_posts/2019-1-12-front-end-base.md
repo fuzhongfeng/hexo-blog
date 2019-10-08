@@ -29,30 +29,6 @@ tags: Front-end
     Object.prototype.__proto__ === null
     ```
 ------
-
-- 作用域与闭包(使用场景)
-
-> js实现继承的方式
-
-    (1)**原型链**：利用原型让一个引用类型继承另一个引用类型的属性和方法（引用类型的原型赋值为另一个构造函数的实例）。 当以读取模式访问一个实例属性时，首先会在实例中搜索该属性。如果没有找到该属性，则会继续搜索实例的原型。在
-    通过原型链实现继承的情况下，搜索过程就得以沿着原型链继续向上。
-    (2)**借用构造函数**：在子类型构造函数的内部调用超类型的构造函数。
-    缺点：方法都在构造函数中定义，因此函数复用就无从谈起了
-    ```javascript
-    function SuperType(){
-        this.colors = ["red", "blue", "green"];
-    }
-    function SubType(){ //继承了 SuperType
-        SuperType.call(this);
-    }
-    var instance1 = new SubType();
-    instance1.colors.push("black");
-    alert(instance1.colors); //"red,blue,green,black"
-    var instance2 = new SubType();
-    alert(instance2.colors); //"red,blue,green"
-    ```
-    (3)**组合继承**：使用原型链实现对原型属性和方法的继承，而通过借用构造函数来实现对实例属性的继承 
-------
     
 - 异步回调
 - ES6/7
