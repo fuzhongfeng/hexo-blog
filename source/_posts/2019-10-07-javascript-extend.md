@@ -189,3 +189,5 @@ Sub.prototype.sayAge = function(){
     console.log(this.age);
 }
 ```
+
+## es6 extends 的实现方式
