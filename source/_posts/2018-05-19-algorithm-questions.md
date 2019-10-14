@@ -6,7 +6,7 @@ categories: Data Structure And Algorithm
 tags: Data Structure And Algorithm
 ---
 
-1. 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数的做索引组成的数组。你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。例子如下：
+## 1. 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数的做索引组成的数组。你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。例子如下：
 
 ```
 给定 nums = [2, 7, 11, 15], target = 9
@@ -15,25 +15,22 @@ tags: Data Structure And Algorithm
 ```
 答案：
 ```
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
 var twoSum = function(nums, target) {
-    let arr = [];
-    for (let i = 0; i < nums.length; i++) {
-        for (let j = 0; j < nums.length; j++) {
-            if ((nums[i] + nums[j] === target) && (i !== j)) {
-                arr = [j, i];
-            }
+    const map = new Map();
+    let arr = []
+    for (let i = nums.length - 1; i >= 0; i--) {
+        const j = map.get(target - nums[i]);
+        if (j !== undefined) {
+          arr = [i, j];
+          break;
         }
+        map.set(nums[i], i);
     }
-    return arr;
+    return arr
 };
 ```
 
-2. 实现数组乱序算法，要求每个数字出现在每个位置的概率是平均的。
+## 2. 实现数组乱序算法，要求每个数字出现在每个位置的概率是平均的。
 * 验证 random 方法是否完全随机
 ```
 const test = (random) => {
