@@ -15,6 +15,7 @@ tags: Data Structure And Algorithm
 ```
 答案：
 ```
+// 时间复杂度 O(1)
 var twoSum = function(nums, target) {
     const map = new Map();
     let arr = []
@@ -74,4 +75,111 @@ const random = (arr) => {
     return arr
 }
 test(random) // [10135, 9962, 10090, 10051, 9963, 9781, 10063, 10053, 10038, 9864] 
+```
+
+## 3. 一维数组转树形结构
+* 实现无限制层级的文件夹菜单树，数据库返回的一维数组结构如下：
+```
+// 顺序不确定
+const arr = [
+  {"id":"1", "pId":"0", "name":"节点1 - 展开", "open":true},
+  {"id":"1-1", "pId":"1", "name":"节点1-1 - 折叠"},
+  {"id":"1-2", "pId":"1", "name":"节点1-2 - 折叠"},
+  {"id":"1-3", "pId":"1", "name":"节点1-3 - 折叠", "open":true},
+  {"id":"1-3-1", "pId":"1-3", "name":"节点1-3-1 - 没有子节点"},
+  {"id":"2", "pId":"0", "name":"节点2 - 折叠"},
+  {"id":"2-1", "pId":"2", "name":"节点2-1 - 展开", "open":true},
+  {"id":"2-2", "pId":"2", "name":"节点2-2 - 折叠"},
+  {"id":"2-3", "pId":"2", "name":"节点2-3 - 折叠"},
+  {"id":"3", "pId":"0", "name":"节点3 - 没有子节点"}
+];
+```
+
+* 需要生成如下树转结构便于进行展示：
+```
+const data = [
+  {
+    "id": "1",
+    "pId": "0",
+    "name": "节点1 - 展开",
+    "open": true,
+    "children": [{
+      "id": "1-1",
+      "pId": "1",
+      "name": "节点1-1 - 折叠",
+      "children": []
+    },
+    {
+      "id": "1-2",
+      "pId": "1",
+      "name": "节点1-2 - 折叠",
+      "children": []
+    },
+    {
+      "id": "1-3",
+      "pId": "1",
+      "name": "节点1-3 - 折叠",
+      "open": true,
+      "children": [{
+        "id": "1-3-1",
+        "pId": "1-3",
+        "name": "节点1-3-1 - 没有子节点",
+        "children": []
+      }]
+    }
+    ]
+  },
+  {
+    "id": "2",
+    "pId": "0",
+    "name": "节点2 - 折叠",
+    "children": [{
+      "id": "2-1",
+      "pId": "2",
+      "name": "节点2-1 - 展开",
+      "open": true,
+      "children": []
+    },
+    {
+      "id": "2-2",
+      "pId": "2",
+      "name": "节点2-2 - 折叠",
+      "children": []
+    },
+    {
+      "id": "2-3",
+      "pId": "2",
+      "name": "节点2-3 - 折叠",
+      "children": []
+    }
+    ]
+  },
+  {
+    "id": "3",
+    "pId": "0",
+    "name": "节点3 - 没有子节点",
+    "children": []
+  }
+]
+```
+
+* 实现方式如下：
+/**
+ * 可重命名字段
+ */
+```
+const getTree = (data, rootId, id = 'id', pId = 'pId', children = 'children') => {
+    const getNode = (p_id) => {
+        const node = [];
+        for (let i = 0; i < data.length; i++) {
+            if (data[i][pId] === p_id) {
+                data[i][children] = getNode(data[i][id]);
+                node.push(data[i]);
+            }
+        }
+        return node;
+    }
+    return getNode(rootId)
+};
+getTree(data, '0');
 ```
