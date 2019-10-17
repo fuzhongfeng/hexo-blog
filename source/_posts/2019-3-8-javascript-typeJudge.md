@@ -28,7 +28,7 @@ typeof new RegExp() // "object"
 ```
 
 ### instanceof
-> instanceof 适用于检测引用类型的值
+> instanceof 适用于检测引用类型的值，如果构造函数的prototype属性在实例的原型链中出现过则返回true。
 
 * 如果变量 variable 是引用类型 constructor 的实例，则返回 true
 ```
