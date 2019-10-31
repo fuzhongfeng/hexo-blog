@@ -9,33 +9,29 @@ tags: npm
 # 发布一个 npm 包
 > 最近在做项目的 SDK，需要将开发好的 SDK 包发布到 npm 私服上，其他项目使用时可以通过 npm install 安装并通过 import 语法引入使用。
 
-## 1. webpack 打包 SDK
-> 通过 script 脚本方式引入可以通过在 window 上添加属性来获取，那么如果想通过 import 引入改如何打包呢？这里通过 webpack 配置来打包即可添加模块化
+## webpack 打包 SDK
+> 通过 script 脚本方式引入可以通过在 window 上添加属性并获取脚本内容，那么如果想通过 import、require 引入该如何打包呢？其实通过 webpack 配置来打包即可实现
 
-* 将所有需要导出的模块引入到一个文件中并导出：
+1. 将所有需要导出的模块引入到一个文件中并导出：
 ```
-// webpack 配置
-module.exports = {
-    entry: './src/index.ts', // 项目的入口文件
-};
-```
-```
-// ./src/index.ts
-
+// ./src/index.ts 文件
 import EditorSDK from './editor/index'
 import PlayerSDK from './player/index'
 
 export default { EditorSDK, PlayerSDK }
 ```
 
-* 配置 output.libraryTarget 选项：
+2. 配置 entry 和 output.libraryTarget 选项：
 ```
-output: {
-    library: 'MyLibrary',
-    libraryTarget: 'umd' 
-}
+module.exports = {
+    entry: './src/index.ts', // 项目的入口文件
+    output: {
+        library: 'MyLibrary',
+        libraryTarget: 'umd' 
+    }
+};
 ```
-在所有模块定义下公开库，此时可以在 CommonJS、AMD 规范以及作为全局变量一起使用。打包后的输出如下：
+* 将模块包通过所有模块化方式暴露，因此可通过 CommonJS、AMD、ES2015 规范或作为全局变量使用。打包后的输出如下：
 ```
 (function webpackUniversalModuleDefinition(root, factory) {
   if(typeof exports === 'object' && typeof module === 'object')
@@ -53,15 +49,16 @@ output: {
 
 * 配置 externals 选项：
 ```
+// 此选项可以将库中依赖的第三方不包含在打包生成的 bundle 文件中，从而减小发布包的体积
 module.exports = {
   externals: 'events'
 }
 ```
-此选项可以将库中依赖的第三方不包含在生成的 bundle 中。
 
 ## 2. npm publish 发布
-> 通过 npm publish 发布时只需要将编译过的 dist 目录发布即可。也可以再主项目下通过配置 main 字段指向 dist 下的文件但会将开发代码也发布到 npm。
-* 在 dist 下执行 `npm init -y` 生成 package.json 文件：
+> 通过 npm publish 发布时只需要将编译过的 dist 目录发布即可。（也可以在主项目下通过配置 package.json 文件中的 main 字段改为 dist 下的文件路径发布，但这样会将开发代码也发布到 npm。）
+
+* dist 目录下执行 `npm init -y` 生成 package.json 文件：
 ```
 {
   "name": "fuzhongfeng-test-slide-sdk", // npm 包的名称，install 时使用
@@ -78,6 +75,7 @@ module.exports = {
 ```
 
 * 在 dist 下执行 `npm publish` 发布
-* 在其他项目中即可通过 `npm install -i fuzhongfeng-test-slide-sdk` 安装模块，并通过 import 引入
 
-参考：https://webpack.js.org/guides/author-libraries/
+* 在其他项目中执行 `npm install -i fuzhongfeng-test-slide-sdk` 安装模块，并可通过 import、require 方式引入
+
+本文参考：https://webpack.js.org/guides/author-libraries/
