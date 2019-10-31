@@ -28,7 +28,7 @@ import PlayerSDK from './player/index'
 export default { EditorSDK, PlayerSDK }
 ```
 
-* 配置 output.libraryTarget 选项
+* 配置 output.libraryTarget 选项：
 ```
 output: {
     library: 'MyLibrary',
@@ -51,8 +51,16 @@ output: {
 });
 ```
 
+* 配置 externals 选项：
+```
+module.exports = {
+  externals: 'events'
+}
+```
+此选项可以将库中依赖的第三方不包含在生成的 bundle 中。
+
 ## 2. npm publish 发布
-> 通过 npm publish 发布时只需要将编译过的 dist 目录发布即可。
+> 通过 npm publish 发布时只需要将编译过的 dist 目录发布即可。也可以再主项目下通过配置 main 字段指向 dist 下的文件但会将开发代码也发布到 npm。
 * 在 dist 下执行 `npm init -y` 生成 package.json 文件：
 ```
 {
@@ -70,4 +78,6 @@ output: {
 ```
 
 * 在 dist 下执行 `npm publish` 发布
-* 在其他项目中即可通过 `npm install -i fuzhongfeng-test-slide-sdk` 安装模块，并通过 `import { EditorSDK, PlayerSDK } from 'fuzhongfeng-test-slide-sdk';` 的形式导入
+* 在其他项目中即可通过 `npm install -i fuzhongfeng-test-slide-sdk` 安装模块，并通过 import 引入
+
+参考：https://webpack.js.org/guides/author-libraries/
