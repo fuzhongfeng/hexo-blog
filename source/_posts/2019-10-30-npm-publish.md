@@ -56,25 +56,24 @@ module.exports = {
 ```
 
 ## 2. npm publish 发布
-> 通过 npm publish 发布时只需要将编译过的 dist 目录发布即可。（也可以在主项目下通过配置 package.json 文件中的 main 字段改为 dist 下的文件路径发布，但这样会将开发代码也发布到 npm。）
-
-* dist 目录下执行 `npm init -y` 生成 package.json 文件：
+> 通过 npm publish 发布时只需要将编译过的 dist 目录发布即可。此时可配置 package.json 下的 files 字段。（此时只会将 dist 文件夹以及根目录下的 README.md 发布）
 ```
 {
   "name": "fuzhongfeng-test-slide-sdk", // npm 包的名称，install 时使用
   "version": "1.0.0", // 每次 npm publish 时需要与线上的版本号不同才能发布
   "description": "slide-sdk publish",
-  "main": "bundle.js", // 指定模块ID为程序的主入口。如果包的名称为 foo 并且用户安装了此包，然后又执行 require（"foo")，则返回主模块所导出的对象。
+  "main": "/dist/bundle.js", // 指定模块ID为程序的主入口。如果包的名称为 foo 并且用户安装了此包，然后又执行 require（"foo")，则返回主模块所导出的对象。
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": ["dist"], // 指定需要发布的文件夹目录，这样不会将开发代码也发布上去
   "keywords": [],
   "author": "",
   "license": "ISC"
 }
 ```
 
-* 在 dist 下执行 `npm publish` 发布
+* 根目录下执行 `npm publish` 发布
 
 * 在其他项目中执行 `npm install -i fuzhongfeng-test-slide-sdk` 安装模块，并可通过 import、require 方式引入
 
