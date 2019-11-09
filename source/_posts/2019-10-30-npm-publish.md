@@ -67,6 +67,7 @@ module.exports = {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": ["dist"], // 指定需要发布的文件夹目录，这样不会将开发代码也发布上去
+  "typings": "dist/index.d.ts', // 指定 ts 项目的申明文件
   "keywords": [],
   "author": "",
   "license": "ISC"
