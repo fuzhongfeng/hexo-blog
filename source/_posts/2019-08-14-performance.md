@@ -32,3 +32,4 @@ s-maxage(秒)：公共缓存服务器响应的最大Age值。
 * 服务端响应添加Cache-Control:no-cache,must-revalidate;指定不使用强缓存。
 * 修改请求头If-modified-since:0或If-none-match:""
 * 修改请求URL，请求URL后加随机数，随机数可以是时间戳，哈希值，比如：http://xxxx.com?a=123412323
+* 通过 webpack contentHash 每次文件内容改变了则改变文件名
