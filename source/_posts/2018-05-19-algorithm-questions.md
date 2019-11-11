@@ -21,6 +21,46 @@ const bubbleSort = (arr) => {
 }
 ```
 
+2. 快速排序: 复杂度 O(n*logn)
+```
+  const quick = function(array, left, right) {
+    let index;
+    if (array.length > 1) {
+      index = partition(array, left, right);
+      if (left < index - 1) {
+        quick(array, left, index - 1);
+      }
+      if (index < right) {
+        quick(array, index, right);
+      }
+    }
+  };
+
+  const partition = function(array, left, right) {
+    const pivot = array[Math.floor((right + left) / 2)];
+    let i = left;
+    let j = right;
+    while (i <= j) {
+      while (array[i] < pivot) {
+        i++;
+      }
+      while (array[j] > pivot) {
+        j--;
+      }
+      if (i <= j) {
+        swap(array, i, j);
+        i++;
+        j--;
+      }
+    }
+    return i;
+  };
+
+  const swap = (array, index1, index2) => {
+    [array[index1], array[index2]] = [array[index2], array[index1]];
+  }
+```
+
 ## 2. 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数的做索引组成的数组。你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。例子如下：
 
 ```
