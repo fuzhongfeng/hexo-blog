@@ -27,7 +27,9 @@ module.exports = {
     entry: './src/index.ts', // 项目的入口文件
     output: {
         library: 'MyLibrary',
-        libraryTarget: 'umd' 
+        libraryTarget: 'umd',
+        globalObject: 'this', // node 和 浏览器都能获取到
+        libraryExport: "default", // 将模块的default默认暴露，如果不指定自参数则需要获取window.MyLibrary.default（对应上文 export default），指定后window.MyLibrary即可获取到。
     }
 };
 ```
