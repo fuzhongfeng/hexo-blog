@@ -61,3 +61,20 @@ function test() {
 }
 var f = debounce(test, 2000, true)
 ```
+
+## 节流
+* 固定间隔执行
+```
+var throttle = function(func, wait = 100) {
+  var timer = null;
+  
+  return function(...arg) {
+    if (!timer) {
+      timer = setTimeout(() => {
+        timer = null;
+        func.apply(this, arg);
+      }, wait)
+    }
+  }
+}
+```
