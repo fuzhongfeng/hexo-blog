@@ -15,7 +15,7 @@ tags: Performance
 ### 强缓存
 > 在*响应头*中添加 `Expires: Thu, 28 Dec 2019 05:27:45 GMT` 或 `Cache-Control: public, max-age=2592000` 来控制强缓存。
 * Expires 是 HTTP/1.0 的字段，它规定了缓存过期的一个绝对时间，过期后需再次请求。缺点：Expires 使用的是客户端本机时间不准确，所以引入了 Cache-Control:max-age。
-* Cache-Control 是 HTTP/1.0 的字段，它规定了缓存过期的一个相对时间。优先级：Cache-Control > Expires。常用指令如下：
+* Cache-Control 是 HTTP/1.1 的字段，它规定了缓存过期的一个相对时间。优先级：Cache-Control > Expires。常用指令如下：
 public: 任意一方都能缓存该资源(客户端、代理服务器等)。
 max-age(秒)：缓存的时长，也是响应的最大的Age值。
 s-maxage(秒)：公共缓存服务器响应的最大Age值。
