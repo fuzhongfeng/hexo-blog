@@ -55,3 +55,29 @@ var str = '<div class="a0 answer-btn" style="width:94px;height:53px;z-index:2;" 
 "17346547310".replace(/(\d{3})\d{4}(\d{4})/g, "$1****$2") // "173****7310"
 ```
 $1、$2 为正则表达式()里的内容，此处分别代表前三位和后四位
+
+
+2. 用正则获取 url 参数
+```
+function getQueryString(name) {
+    var source = window.location.search.substr(1);
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var r = source.match(reg);
+
+    if (r != null) {
+        return decodeURIComponent(r[2]);
+    }
+    return null;
+}
+// '(^|&)' 这里的引号用于拼接字符串，^|& 表示字符串以空字符串或&开头。
+// ([^&]*) 这里的^表示不匹配&，* 表示零或多次
+// (&|$)
+// i 不区分大小写
+// r[0] 为匹配到的所有字符，r[1] 为第一个()匹配的内容，r[2] 为第二个()匹配的内容即=后的结果。
+// decodeURIComponent 解析被 encodeURIComponent 的内容
+```
+
+3. 匹配Unicode编码中的汉字范围
+```
+var reg = /^[\u2E80-\u9FFF]+$/;
+```
