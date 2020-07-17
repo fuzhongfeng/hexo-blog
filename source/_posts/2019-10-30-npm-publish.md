@@ -57,6 +57,13 @@ module.exports = {
 }
 ```
 
+## todo: rollup 打包
+
+## package.json
+* version 版本号发布时不能与已有的重复。
+* dependencies 和 devDependencies 
+一直说开发环境的包要放到 devDependencies 中、生产环境的把放到 dependencies。但即使混淆也并不影响项目打包，对于平时开发似乎没什么影响。但作为包发布却有很大的差别，**dependencies 里的依赖用 npm 安装的时候会自动添加到 node_modules 中，webpack externals 或 roolup external 中配置后可不打包在 bundle 中，减小包的体积。**
+
 ## 2. npm publish 发布
 > 通过 npm publish 发布时只需要将编译过的 dist 目录发布即可。此时可配置 package.json 下的 files 字段。（此时只会将 dist 文件夹以及根目录下的 README.md 发布）
 ```
