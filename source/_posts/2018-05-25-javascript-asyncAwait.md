@@ -206,3 +206,95 @@ tags: JavaScript
         })
 
 ### 现在来看想使用好 async/await 真的会那么简单吗？回调方式这么简单的过程式代码，换成 async/await 居然写完还要反思一下，再反推着去优化性能，先不考虑写法上的繁琐与否如果一不留神影响性能这简直比回调还要可怕。希望本次分享能让大家在使用 async/await 的时候多一些思考，谢谢大家
+
+## 源码
+#### 一下为 babel 的源码（不包含词法转换）:
+```
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    // generator 语法
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    // await 后的值包装一层 promise 返回.
+    // value 为非 promise 时直接返回，value 为 promise 时则 then 之后再继续执行 generator 的 next 方法
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function() {
+    var self = this,
+      args = arguments;
+    // async function 返回 promise 的原因
+    return new Promise(function(resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+module.exports = _asyncToGenerator;
+```
+
+2. 测试一下：
+```
+// babel
+const babelFunc = _asyncToGenerator(function* () {
+  console.log(1);
+  yield new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+      console.log('sleep 1s');
+    }, 1000);
+  });
+  console.log(2);
+  const a = yield Promise.resolve('a');
+  const b = yield Promise.resolve('b');
+  const c = yield Promise.resolve('c');
+  console.log(3);
+  return [a, b, c];
+})
+
+babelFunc().then(res => {
+  console.log(res)
+});
+
+// async await
+const asyncFunc = async () => {
+  console.log(1)
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+      console.log('1s')
+    }, 1000)
+  })
+  console.log(2)
+  const a = await Promise.resolve('a')
+  const b = await Promise.resolve('b')
+  const c = await Promise.resolve('c')
+  console.log(3)
+  return [a, b, c]
+}
+
+asyncFunc().then(res => {
+  console.log(res)
+})
+// 测试结果相同
+```
