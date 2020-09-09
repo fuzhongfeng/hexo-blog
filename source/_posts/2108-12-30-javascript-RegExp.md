@@ -81,3 +81,39 @@ function getQueryString(name) {
 ```
 var reg = /^[\u2E80-\u9FFF]+$/;
 ```
+
+4. 替换 dom 字符串中的图片地址
+* 向 dom 字符串中的 background-image url() 和 img src 追加参数。（使用jquery初始化会发送请求）
+```
+const domStr = '<div class="slide " style="width: 1200px; height: 900px; background: url(&quot;https://storage.aixuexi.com/u/89JTeFCY291?imageView2/2/w/1000/q/50&amp;ps=-s25q25&quot;) center center / cover no-repeat;"><div class="a0"><img style="width: 100%;height: 100%;" src="https://storage.aixuexi.com/u/fb0NXFhfe92?ps=-s25q25"></div></div>'
+const _quality = 'ps=-s25q25'
+
+// 背景图
+domStr.replace(
+    /(url\(&quot;)(.*?)(&quot;\))/g,
+    (match, p1, p2, p3) => {
+        const _p2 = `${p2}${p2.includes('?') ? `&amp;${_quality}` : `?${_quality}`}`;
+
+        return `${p1}${_p2}${p3}`;
+    }
+);
+
+// 图片组件
+domStr.replace(
+    /(<img)(.*?)(>)/g,
+    (match, p1, p2, p3) => {
+        const _p2 = p2.replace(
+        /(src=")(.*?)(")/g,
+        (match, $1, $2, $3) => {
+            const _$2 = `${$2}${$2.includes('?') ? `&${_quality}` : `?${_quality}`}`
+
+            return `${$1}${_$2}${$3}`
+        });
+
+        return `${p1}${_p2}${p3}`;
+    }
+);
+
+* ? 非贪婪限定符，保证匹配到一个 <img /> 标签, .* 会匹配到最后一个 > 不准确
+* replace 第二个参数接受函数，需返回 string，match 参数表示当前正则所匹配到的完整字符串，p(n) 参数对应正则中的第 n 括号的内容
+```
