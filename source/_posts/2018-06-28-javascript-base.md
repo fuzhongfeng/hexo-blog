@@ -69,3 +69,24 @@ fn('a')('b', 'c') // ['a', 'b', 'c']
     }
     return _adder;
 } -->
+
+## 实现 Function.prototype.call
+```
+Function.prototype.myCall = function(obj, ...args) {
+    if (typeof this !== 'function') throw new Error('type error')
+
+    // 默认值 window
+    obj = obj || window
+
+    // 防止覆盖 obj 已有 fn 属性
+    const _fn = Symbol('fn')
+
+    // call 位于函数实例的原型上，因此调用时 call 函数内的 this 指向函数实例自身
+    obj[_fn] = this
+
+    const _result = obj[_fn](...args)
+    delete obj[_fn]
+    
+    return _result
+}
+```
