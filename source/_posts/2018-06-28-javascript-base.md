@@ -90,3 +90,17 @@ Function.prototype.myCall = function(obj, ...args) {
     return _result
 }
 ```
+* 测试一下
+```
+var o = {
+    name: 'fu',
+}
+
+function test() {
+    console.log(this.name)
+}
+
+test() // undefined
+test.call(o) // 'fu'
+test.myCall(o) // 'fu'
+```
