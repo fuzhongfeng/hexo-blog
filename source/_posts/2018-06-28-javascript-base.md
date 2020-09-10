@@ -104,3 +104,40 @@ test() // undefined
 test.call(o) // 'fu'
 test.myCall(o) // 'fu'
 ```
+
+## 实现 Function.prototype.apply
+```
+Function.prototype.myApply = function(obj, args) {
+    if (typeof this !== 'function') throw new Error('type error')
+
+    // 默认值 window
+    obj = obj || window
+
+    // 防止覆盖 obj 已有 fn 属性
+    const _fn = Symbol('fn')
+
+    // call 位于函数实例的原型上，因此调用时 call 函数内的 this 指向函数实例自身
+    obj[_fn] = this
+
+    const _result = obj[_fn](...args)
+    delete obj[_fn]
+    
+    return _result
+}
+```
+* 测试一下
+```
+var o = {
+    name: 'fu',
+}
+
+function test(...args) {
+    console.log(this.name, ...args)
+}
+
+var arr = [1,2,3]
+
+test(arr) // [1,2,3]
+test.apply(o) // 'fu' 1,2,3
+test.myApply(o) // 'fu' 1,2,3
+```
