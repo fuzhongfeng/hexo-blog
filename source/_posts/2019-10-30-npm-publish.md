@@ -58,6 +58,14 @@ module.exports = {
 ```
 
 ## todo: rollup 打包
+rollup 对于 tree-shaking 支持较好，一些前端流行都是用 rollup 打包，下面罗列一些开发中遇到的点：
+1. rollup 支持 umd 和 es 两种打包方式分别对应 package.json 中的 main 和 module 字段，直接 import 时会使用 es 文件对 tree-shaking 执行更好。
+2. d.ts 声明文件如何生成？
+可以通 tsconfig.json 中的 compilerOptions.declarationDir 字段指定文件夹目录如：dist/types。
+通过 rollup-plugin-typescript2 插件生成，通过配置 useTsconfigDeclarationDir: true 读取。
+注意如果使用了rollup-plugin-typescript2不指定声明文件目录也会生成声明文件但目录结构比较混乱。
+3. external 排除引用的第三方包减少当前包的体积。
+建议规范使用 package.json 字段，dependencies 字段中添加生产环境必须的依赖包，这样安装当前包的时候也会将 dependencies 内需要的包添加到使用的项目内。此选项建议直接读取 package.json dependencies。
 
 ## package.json
 * version 版本号发布时不能与已有的重复。

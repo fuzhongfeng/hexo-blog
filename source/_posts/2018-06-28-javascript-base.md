@@ -141,3 +141,36 @@ test(arr) // [1,2,3]
 test.apply(o) // 'fu' 1,2,3
 test.myApply(o) // 'fu' 1,2,3
 ```
+
+## 实现 Function.prototype.bind
+```
+Function.prototype.myBind = function (thisArg, ...args) {
+    if (typeof this !== "function") {
+      throw Error("type error")
+    }
+
+    var self = this
+    var fn = function () {
+        self.apply(this instanceof self ? this : thisArg, args.concat(Array.prototype.slice.call(arguments)))
+    }
+    // 继承原型上的属性和方法
+    fn.prototype = Object.create(self.prototype);
+
+    return fn;
+}
+```
+* 测试一下
+```
+var o = {
+    name: 'fu',
+}
+
+function test(...args) {
+    console.log(this.name, args)
+}
+
+var t = test.bind(o, 1,2,3)
+
+t() // fu [1,2,3]
+t(4) // fu [1,2,3,4]
+```
