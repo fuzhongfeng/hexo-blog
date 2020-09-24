@@ -52,23 +52,34 @@ var curriedAdd = curry(add, 5);
 curriedAdd(3) // 8
 ```
 
-问题：实现一个 fn 函数返回如下结果
+*问题1：实现一个 fn 函数返回如下结果
+```
 fn('a', 'b', 'c') // ['a', 'b', 'c']
 fn('a', 'b')('c') // ['a', 'b', 'c']
 fn('a')('b')('c') // ['a', 'b', 'c']
 fn('a')('b', 'c') // ['a', 'b', 'c']
+```
 
-<!-- function fn() {
-    var _args = [...arguments];
-    var _adder = function() {
-        _args.push(...arguments);
-        return _adder;
-    };
-    _adder.toString = function () {
-        return _args // 返回数组时出现问题
+函数式 柯里化解决：
+```
+function add (a, b, c) {
+    console.log([a, b, c])
+}
+
+function curry(func) {
+    var argLen = func.length
+
+    return function _fn(...rest) {
+         if(rest.length < argLen) {
+           return _fn.bind(null, ...rest)
+         } else {
+             return func.apply(null, rest)   
+         }
     }
-    return _adder;
-} -->
+}
+
+var fn = curry(add)
+```
 
 ## 实现 Function.prototype.call
 ```
