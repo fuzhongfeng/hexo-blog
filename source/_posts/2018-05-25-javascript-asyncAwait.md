@@ -298,3 +298,16 @@ asyncFunc().then(res => {
 })
 // 测试结果相同
 ```
+
+* 思考一下代码的执行结果，todo: generator 源码不是一直 while 吗？
+```
+async function test() {
+    setTimeout(() => {console.log('ffff')}, 2000)
+    await new Promise((resolve) => {
+        setTimeout(() => {
+            resolve()
+            console.log('10s')
+        }, 10000)
+    })
+}
+```
