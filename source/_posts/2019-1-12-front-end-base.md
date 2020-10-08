@@ -49,11 +49,30 @@ console.time('for')
 for (let i = 0; i < 10000000000; i++) { // 执行时间约为 11s 
 }
 console.timeEnd('for')
-```  
-
+```
  除了广义的同步和异步任务，异步任务可以分为以下两类: 
  * macro-task（宏任务）：script, setTimeout, setInterval, requestAnimationFrame, I/O, UI rendering
  * micro-task(微任务)：Promise.then, process.nextTick, MutationObserver
+
+ 所有微任务清空后才会执行宏任务：
+ ```
+Promise.resolve(Promise.resolve('resolve!')).then(v => v).then(v => {console.log(v)})
+
+Promise.resolve().then(()=>{
+  console.log('Promise1')  
+  setTimeout(()=>{
+    console.log('setTimeout1')
+  },0)
+})
+
+setTimeout(()=>{
+  console.log('setTimeout2')
+  Promise.resolve().then(()=>{
+    console.log('Promise2')    
+  })
+},0)
+// Promise1 resolve! setTimeout2 Promise2 setTimeout1
+ ```
  ------
 
 > 构造函数
