@@ -1,4 +1,4 @@
-# 小代码
+## 代码执行结果
 1.
 ```
 var a = 1
@@ -109,4 +109,34 @@ new Number(123) instanceof Number // true
 var a = 123
 a instanceof Number // false
 Object.prototype.toString.call(a) // "[object Number]"
+```
+
+## 编程题
+1. 代码输出结果及为什么？如果要每隔1s输出结果，如何改造？（不可改动square方法）
+```
+const list = [1,2,3]
+const square = num => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(num * num)
+        }, 1000)
+    })
+}
+
+function test() {
+    list.forEach(async x => {
+        const res = await square(x)
+        console.log(res)
+    })
+}
+test()
+
+// 答案1:
+async function test() {
+    for(let i = 0; i < list.length; i++){
+        const res = await square(list[i])
+        console.log(res)
+    }
+}
+test()
 ```
