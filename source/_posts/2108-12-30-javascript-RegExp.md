@@ -82,7 +82,14 @@ function getQueryString(name) {
 var reg = /^[\u2E80-\u9FFF]+$/;
 ```
 
-4. 替换 dom 字符串中的图片地址
+4. 将 '10000000000' 形式的字符串, 以每3位进行分隔展示 '10.000.000.000'
+```
+'10000000000'.replace(/(\d)(?=(\d{3})+\b)/g, '$1.')
+// \b 从单词结尾开开始匹配
+// a?=b 表示匹配b前的a
+```
+
+5. 替换 dom 字符串中的图片地址
 * 向 dom 字符串中的 background-image url() 和 img src 追加参数。（使用jquery初始化会发送请求）
 ```
 const domStr = '<div class="slide " style="width: 1200px; height: 900px; background: url(&quot;https://storage.aixuexi.com/u/89JTeFCY291?imageView2/2/w/1000/q/50&amp;ps=-s25q25&quot;) center center / cover no-repeat;"><div class="a0"><img style="width: 100%;height: 100%;" src="https://storage.aixuexi.com/u/fb0NXFhfe92?ps=-s25q25"></div></div>'
