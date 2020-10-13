@@ -1,3 +1,11 @@
+---
+title: JavaScript-code
+layout: post
+date: 2020-10-13 9:18:23
+categories: JavaScript
+tags: JavaScript
+---
+
 ## 代码执行结果
 1.
 ```
