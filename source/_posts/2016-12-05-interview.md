@@ -140,3 +140,26 @@ async function test() {
 }
 test()
 ```
+
+2. 实现一个 normalize 函数，能将输入的特定字符串转化为特定的结构化数据，字符串仅由小写字母和[]组成，且字符串不会包含多余的空格。
+示例一：'abc' --> {value: 'abc'}
+示例二：'[abc[bcd[def]]]' --> {value: 'abc', children: {value: 'bcd', children: {value: 'def'}}}
+```
+function normalize(str) {
+    var arr = str.match(/\w+/g)
+    var obj = {}
+    var cur = obj // 利用引用添加嵌套结构
+    var key = null
+
+    while(key = arr.shift()) {
+        cur.value = key
+        if (arr.length === 0) break
+        cur.children = {}
+        cur = cur.children // 当前引用终断，赋值为 children 引用。
+    }
+
+    return obj
+}
+
+console.log(normalize('[abc[bcd[def]]]'))
+```
