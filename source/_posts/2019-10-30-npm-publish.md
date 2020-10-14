@@ -9,7 +9,7 @@ tags: npm
 # 发布一个 npm 包
 > 最近在做项目的 SDK，需要将开发好的 SDK 包发布到 npm 私服上，其他项目使用时可以通过 npm install 安装并通过 import 语法引入使用。
 
-## webpack 打包 SDK
+## webpack 打包 SDK（不推荐）
 > 通过 script 脚本方式引入可以通过在 window 上添加属性并获取脚本内容，那么如果想通过 import、require 引入该如何打包呢？其实通过 webpack 配置来打包即可实现
 
 1. 将所有需要导出的模块引入到一个文件中并导出：
@@ -57,7 +57,7 @@ module.exports = {
 }
 ```
 
-## rollup 打包
+## rollup 打包（推荐）
 rollup 对于 tree-shaking 支持较好，一些前端流行都是用 rollup 打包，下面罗列一些开发中遇到的点：
 1. rollup 支持 umd 和 es 两种打包方式分别对应 package.json 中的 main 和 module 字段，直接 import 时会使用 es 文件对 tree-shaking 执行更好。
 2. d.ts 声明文件如何生成？
@@ -66,6 +66,9 @@ rollup 对于 tree-shaking 支持较好，一些前端流行都是用 rollup 打
 注意如果使用了rollup-plugin-typescript2不指定声明文件目录也会生成声明文件但目录结构比较混乱。
 3. external 排除引用的第三方包减少当前包的体积。
 建议规范使用 package.json 字段，dependencies 字段中添加生产环境必须的依赖包，这样安装当前包的时候也会将 dependencies 内需要的包添加到使用的项目内。此选项建议直接读取 package.json dependencies。
+4. 为什么 rollup 对 tree-shaking 支持更好？
+因为rollup基于显式的 import 和 export 语句的方式解析（不需要第三方 babel）。比在编译后的输出代码中，简单地运行自动 minifier 检测未使用的变量更有效（个人理解是webpack只会检测babel处理后的代码）。
+5. rollup 不需要 babel 编译新特性代码，自身就可以处理。（官网：Rollup itself processes the config file, which is why we're able to use export default syntax – the code isn't being transpiled with Babel or anything similar, so you can only use ES2015 features that are supported in the version of Node.js that you're running）。有利于 tree-shaking
 
 ## package.json
 * version 版本号发布时不能与已有的重复。
