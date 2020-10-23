@@ -6,6 +6,61 @@ categories: Data Structure And Algorithm
 tags: Data Structure And Algorithm
 ---
 
+## 二分查找
+> 二分查找一般由三部分组成：
+1. **预处理** —— 如果集合未排序，则进行排序
+2. **二分查找** —— 使用循环或递归在每次比较后将查找空间划分为两半
+3. **后处理** —— 在剩余空间中确定可行的候选者
+
+> 三个模板：
+1. 模板一
+```
+function binarySearch(nums, target){
+  if(nums.length === 0) return -1;
+
+  var left = 0, right = nums.length - 1; // 初始条件
+  while(left <= right){ // 终止条件 left > right, 等于是为了只有两个数时能最终取到值
+    int mid = left + (right - left) / 2;
+    if(nums[mid] == target){
+      return mid; 
+    } else if(nums[mid] < target) { 
+      left = mid + 1; // 向右查找：left = mid+1
+    } else {
+      right = mid - 1; // 向左查找 right = mid-1
+    }
+  }
+
+  return -1;
+}
+```
+
+2. 模板二
+> 用于查找需要访问数组中当前索引及其直接右邻居索引的元素或条件
+* 一种实现二分查找的高级方法。
+* 查找条件需要访问元素的直接右邻居。
+* 使用元素的右邻居来确定是否满足条件，并决定是向左还是向右。
+* 保证查找空间在每一步中至少有 2 个元素。
+* 需要进行后处理。 当你剩下 1 个元素时，循环 / 递归结束。 需要评估剩余元素是否符合条件。
+```
+  function binarySearch(nums, target) {
+
+    var left = 0, right = nums.length;
+
+    while(left < right) {
+      var mid = (left + right) / 2;
+      if(nums[mid] == target){ return mid; }
+      else if(nums[mid] < target) { left = mid + 1; }
+      else { right = mid; }
+    }
+
+    if(left != nums.length && nums[left] == target) return left;
+
+    return -1;
+  }
+```
+
+------------------------------------------------------
+
 ## 1. 排序算法
 1. 冒泡排序: 双层循环，两两比较交换位置。复杂度 O(n^2)
 ```
