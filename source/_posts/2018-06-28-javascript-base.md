@@ -67,7 +67,7 @@ function add (a, b, c) {
 }
 
 function curry(func) {
-    var argLen = func.length
+    var argLen = func.length // 函数参数的个数
 
     return function _fn(...rest) {
          if(rest.length < argLen) {
@@ -180,7 +180,7 @@ function test(...args) {
     console.log(this.name, args)
 }
 
-var t = test.bind(o, 1,2,3)
+var t = test.myBind(o, 1,2,3)
 
 t() // fu [1,2,3]
 t(4) // fu [1,2,3,4]
