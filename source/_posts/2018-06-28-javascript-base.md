@@ -185,3 +185,88 @@ var t = test.myBind(o, 1,2,3)
 t() // fu [1,2,3]
 t(4) // fu [1,2,3,4]
 ```
+
+## new 操作符
+* new 操作符都做了什么？
+1. 在内存中创建一个新对象
+2. 这个新对象内部的[[Prototype]]特性被赋值为构造函数的 prototype 属性
+3. 构造函数内部的 this 被赋值为这个新对象（即this指向新对象）
+4. 执行构造函数内部的代码（给新对象添加属性）
+5. 如果构造函数返回非空对象，则返回该对象；否则，返回刚创建的新对象。
+
+* 实现一个 new
+```
+/**
+ * 
+ * @param {*} constructor 第一个参数为
+ */
+var newFactory = function() {
+  var obj = {};
+  var Con = [].shift.apply(arguments);
+  obj.__proto__ = Con.prototype;
+  var ret = Con.apply(obj, arguments);
+  return typeof ret === "object" ? ret : obj;
+}
+
+// test
+function A(name) {
+  this.name = name
+}
+
+console.log(newFactory(A, 'fffff')) // A {name: "fffff"}
+```
+
+## promise 
+* 实现一个 promise
+```
+function myPromise(callback) {
+  const self = this;
+  self.status = "pending"; // pending、resolved、rejected
+  self.value = undefined;
+  self.reason = undefined;
+
+  function resolve(value) {
+    if (self.status === "pending") {
+      self.value = value;
+      self.status = 'resolved';
+    }
+  }
+
+  function reject(reason) {
+    if (self.status === "pending") {
+      self.reason = reason;
+      self.status = 'rejected';
+    }
+  }
+
+  try {
+    callback(resolve, reject)
+  } catch(e) {
+    reject(e)
+  }
+}
+
+myPromise.prototype.then = function(onResolved, onRejected) {
+  const self = this;
+  switch(self.status){
+    case "resolved":
+      onResolved(self.value);
+      break;
+    case "rejected":
+      onRejected(self.reason);
+      break;
+    default:       
+ }
+}
+
+// 测试一下
+var p = new myPromise((r, j) => {
+  setTimeout(() => {
+      r(66666)
+  }, 3000)
+})
+
+p.then((v) => {
+  console.log(v) // 6666
+})
+```

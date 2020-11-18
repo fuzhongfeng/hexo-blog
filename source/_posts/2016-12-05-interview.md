@@ -7,6 +7,7 @@ tags: JavaScript
 ---
 
 ## 代码执行结果
+
 1.
 ```
 var a = 1
@@ -31,7 +32,7 @@ console.log(b) // {x: {n: 1}}
 // 3. a.x 为原来{x: 1}中的x，所以b.x会变为{n: 1}
 ```
 
-3. 
+3.
 ```
 Function.prototype.a = () => alert(1);
 Object.prototype.b = () => alert(2);
@@ -41,7 +42,7 @@ a.a() // Uncaught TypeError: a.a is not a function
 a.b() // 2
 ```
 
-4. 
+4.
 ```
 let a = 0;
 console.log(a); // 0
@@ -51,7 +52,7 @@ console.log(c); // 此处不会打印 ƒ c() {} 因为上一步已经报错了�
 function c() {};
 ```
 
-5. 
+5.
 ```
 var x = 10;
 function a (y) {
@@ -66,18 +67,18 @@ function b (y) {
 a(20) // 30
 ```
 
-6. 
+6.
 ```
 typeof typeof typeof [] // "string"
 ```
 
-7. 
+7.
 ```
 [1,2,3,4,5].map(parseInt)
 // [1,NaN,NaN,NaN,NaN]
 ```
 
-8. 
+8.
 ```
 console.log(1)
 
@@ -110,7 +111,7 @@ Promise.resolve().then(() => {
 // 1 5 6 3 7 8 9 2 4
 ```
 
-9. 
+9.
 ```
 typeof new Number(123) // "object"
 new Number(123) instanceof Number // true
