@@ -172,3 +172,29 @@ function normalize(str) {
 
 console.log(normalize('[abc[bcd[def]]]'))
 ```
+
+2. 有数组 [1,2,3, 5, 7, 9, 11,12,13]，实现函数 fn，返回字符串："1号—~3号, 5号, 7号, 9号, 11号~13号"
+```
+var arr = [1,2,3, 5, 7, 9, 11,12,13]
+
+function fn() {
+    var result = [[]]
+
+    for (let i = 0; i < arr.length; i++) {
+        // 最后一项
+        const item = result[result.length - 1];
+
+        if (item.length === 0) {
+            item.push(arr[i])
+        } else {
+            if ((item[item.length - 1] + 1) === arr[i]) {
+            item.push(arr[i])
+            } else if((item[item.length - 1] + 1) < arr[i]) {
+                result[result.length] = [arr[i]]
+            }
+        }
+    }
+
+    return result;
+}
+```
