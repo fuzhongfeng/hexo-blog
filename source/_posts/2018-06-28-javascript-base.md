@@ -66,6 +66,7 @@ function add (a, b, c) {
     console.log([a, b, c])
 }
 
+// 第一种
 function curry(func) {
     var argLen = func.length // 函数参数的个数
 
@@ -75,6 +76,19 @@ function curry(func) {
          } else {
              return func.apply(null, rest)   
          }
+    }
+}
+
+// 第二种
+function curry(fn) {
+    var len = fn.length;
+
+    return function _f() {
+        if (arguments.length === len) {
+            return fn.apply(null, arguments)
+        } else {
+            return _f.bind(null, ...arguments)
+        }
     }
 }
 
@@ -269,4 +283,40 @@ var p = new myPromise((r, j) => {
 p.then((v) => {
   console.log(v) // 6666
 })
+```
+
+## 函数的this
+1. 问一下两段代码各输出什么？
+```
+var value = 1;
+
+function foo() {
+    console.log(value);
+}
+
+function bar() {
+    var value = 2;
+    foo(); // 这里相当于window.foo()
+}
+
+bar();
+
+// 1
+```
+
+```
+var value = 1;
+
+function bar() {
+    var value = 2;
+
+    function foo() {
+        console.log(value);
+    }
+    foo(); // 这里在bar函数作用域内
+}
+
+bar();
+
+// 2
 ```

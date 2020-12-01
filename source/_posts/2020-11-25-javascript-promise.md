@@ -196,3 +196,41 @@ console.log('script end');
 // promise2
 // setTimeout
 ```
+
+## 实现一个 Promise.all
+```
+Promise.myAll = function(promiseArr) {
+  return new Promise((resolve, reject) => {
+    var result = [];
+    var count = 0;
+
+    promiseArr.forEach((p, i) => {
+      if (Object.prototype.toString.call(p) !== '[object Promise]') {
+        count++;
+        result[i] = p
+      } else {
+        p.then((d) => {
+          count++;
+          result[i] = d
+
+          if (count === promiseArr.length) {
+            resolve(result)
+          }
+        }).catch((e) => {
+          reject(e)
+        })
+      }
+    })
+  })
+}
+
+var promise1 = Promise.resolve(3);
+var promise2 = 42;
+var promise3 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 5000, 'foo');
+});
+
+Promise.myAll([promise1, promise2, promise3]).then((data) => {
+  console.log(data)
+})
+```
