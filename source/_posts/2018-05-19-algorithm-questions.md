@@ -143,6 +143,8 @@ const bubbleSort = (arr) => {
   const swap = (array, index1, index2) => {
     [array[index1], array[index2]] = [array[index2], array[index1]];
   }
+
+  // quick(array, 0, array.length - 1);
 ```
 
 ## 2. 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数的做索引组成的数组。你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。例子如下：

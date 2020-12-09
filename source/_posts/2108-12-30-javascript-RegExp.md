@@ -125,3 +125,10 @@ domStr.replace(
 * ? 非贪婪限定符，保证匹配到一个 <img /> 标签, .* 会匹配到最后一个 > 不准确
 * replace 第二个参数接受函数，需返回 string，match 参数表示当前正则所匹配到的完整字符串，p(n) 参数对应正则中的第 n 括号的内容
 ```
+
+6. 实现字符串的 trim 方法
+```
+String.prototype.myTrim = function() {
+    return this.replace(/(^\s+)|(\s+$)/g,'')
+}
+```
