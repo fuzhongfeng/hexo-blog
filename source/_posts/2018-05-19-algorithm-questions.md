@@ -147,6 +147,40 @@ const bubbleSort = (arr) => {
   // quick(array, 0, array.length - 1);
 ```
 
+```
+function qsort(arr, low, high) {
+    if (low < high) {
+        var mid = partition(arr, low, high);
+        qsort(arr, low, mid - 1);
+        qsort(arr, mid + 1, high);
+    } 
+}
+
+function partition(arr, low, high) {
+    var i = low - 1;
+    var j = high;
+    var pivot = arr[high];    
+
+    while(1) {
+        while(arr[++i] < pivot);
+        while(arr[--j] > pivot);
+        if (i < j) {
+            swap(arr, i, j)
+        } else {
+            break;
+        }
+    }
+
+    swap(arr, i, high)
+
+    return i;
+}
+
+function swap(arr, i, j) {
+    [arr[i], arr[j]] = [arr[j], arr[i]]
+}
+```
+
 ## 2. 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数的做索引组成的数组。你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。例子如下：
 
 ```
