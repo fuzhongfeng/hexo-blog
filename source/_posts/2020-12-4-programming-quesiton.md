@@ -100,3 +100,80 @@ function compare(a, b) {
     return 0;
 }
 ```
+
+4. 实现 Person 类满足以下要求：
+```
+/**
+ * new Person('Tony').sleep(10).eat('lunch')
+ * // hi, I'm Tony
+ * // wait for 10 sec
+ * // eating lunch
+ *
+ * new Person('Tony').eat('lunch').sleep(10).eat('dinner')
+ * // hi, i'm Tony
+ * // eating lunch
+ * // wait for 10 sec
+ * // eating dinner
+ *
+ * new Person('Tony').eat('lunch').sleep(10).eat('dinner').sleepFirst(5)
+ * // hi, i'm Tony
+ * // sleep fisrt for 5 sec
+ * // eating lunch
+ * // wait for 10 sec
+ * // eating dinner
+ */
+```
+```
+class Person {
+    constructor(name) {
+        console.log(`hi, i'm ${name}`)
+        this.name = name;
+        this.queue = [];
+        this.runner();
+    }
+
+    runner() {
+        Promise.resolve().then(async () => {
+            while (this.queue.length > 0) {
+                await this.queue.shift()()
+            }
+        })
+    }
+
+    sleepFirst(time) {
+        this.queue.unshift(() => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log(`sleep first for ${5} sec`)
+                    resolve()
+                }, time * 1000)
+            })
+        })
+
+        return this
+    }
+
+    sleep(time) {
+        this.queue.push(() => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log(`wait for ${time} sec`)
+                    resolve()
+                }, time * 1000)
+            })
+        })
+
+        return this
+    }
+
+    eat(thing) {
+        this.queue.push(() => {
+            return new Promise((resolve) => {
+                console.log(`eating ${thing}`)
+                resolve()
+            })
+        })
+        return this
+    }
+}
+```
