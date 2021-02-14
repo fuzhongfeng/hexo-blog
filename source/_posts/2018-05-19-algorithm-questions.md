@@ -104,19 +104,28 @@ function swap(arr, i, j) {
 }
 ```
 
-3. 堆排序, O(nlogn)
+3. 堆排序, 时间复杂度 O(nlogn)，空间复杂度 O(1)
+> 实现思路如下：
+* 将无序数组构建成一个堆，根据升序降序需求选择大顶堆或小顶堆;
+* 将堆顶元素与末尾元素交换，将最大(或最小)元素放到数组末端;
+* 重新调整结构，使其满足堆定义。然后继续交换堆顶元素与当前末尾元素，反复执行调整+交换步骤，直到整个数组排序完成;
 ```
   function heapSort(array) {
     var heapSize = array.length;
 
+    // 构建堆
     buildHeap(array);
     while (heapSize > 1) {
       heapSize--;
+      // 将堆顶的根节点与末尾元素进行交换，剩余的元素反复执行便得到一个有序数组
       swap(array, 0, heapSize);
       heapify(array, heapSize, 0);
     }
   };
 
+ /**
+  * 将数组构建成堆。
+  */
   function buildHeap(array) {
     var heapSize = array.length;
     for (var i = Math.floor(array.length / 2); i >= 0; i--) {
@@ -124,6 +133,11 @@ function swap(arr, i, j) {
     }
   };
 
+/**
+  * 构建堆需要满足的条件：
+  * 大顶堆：array[i] >= array[2i+1] && array[i] >= array[2i+2]  
+  * 小顶堆：array[i] <= array[2i+1] && array[i] <= arr[2i+2]
+  */
   function heapify(array, heapSize, i) {
     var left = i * 2 + 1,
       right = i * 2 + 2,
@@ -144,6 +158,7 @@ function swap(arr, i, j) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 ```
+参考：https://www.cnblogs.com/chengxiao/p/6129630.html
 
 ## 2. 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数的做索引组成的数组。你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。例子如下：
 
