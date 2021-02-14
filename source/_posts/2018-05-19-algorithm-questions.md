@@ -6,89 +6,6 @@ categories: Data Structure And Algorithm
 tags: Data Structure And Algorithm
 ---
 
-## 二分查找
-> 二分查找一般由三部分组成：
-1. **预处理** —— 如果集合未排序，则进行排序
-2. **二分查找** —— 使用循环或递归在每次比较后将查找空间划分为两半
-3. **后处理** —— 在剩余空间中确定可行的候选者
-
-> 三个模板：
-1. 模板一
-```
-function binarySearch(nums, target){
-  if(nums.length === 0) return -1;
-
-  var left = 0, right = nums.length - 1; // 初始条件
-  while(left <= right){ // 终止条件 left > right, 等于是为了只有两个数时能最终取到值
-    int mid = left + (right - left) / 2;
-    if(nums[mid] == target){
-      return mid; 
-    } else if(nums[mid] < target) { 
-      left = mid + 1; // 向右查找：left = mid+1
-    } else {
-      right = mid - 1; // 向左查找 right = mid-1
-    }
-  }
-
-  return -1;
-}
-```
-
-2. 模板二
-> 用于查找需要访问数组中当前索引及其直接右邻居索引的元素或条件
-* 一种实现二分查找的高级方法。
-* 查找条件需要访问元素的直接右邻居。
-* 使用元素的右邻居来确定是否满足条件，并决定是向左还是向右。
-* 保证查找空间在每一步中至少有 2 个元素。
-* 需要进行后处理。 当你剩下 1 个元素时，循环 / 递归结束。 需要评估剩余元素是否符合条件。
-```
-  function binarySearch(nums, target) {
-
-    var left = 0, right = nums.length;
-
-    while(left < right) {
-      var mid = (left + right) / 2;
-      if(nums[mid] == target){ return mid; }
-      else if(nums[mid] < target) { left = mid + 1; }
-      else { right = mid; }
-    }
-
-    if(left != nums.length && nums[left] == target) return left;
-
-    return -1;
-  }
-```
-
-3. 模板三
-
-* 实现二分查找的另一种方法。
-* 搜索条件需要访问元素的直接左右邻居。
-* 使用元素的邻居来确定它是向右还是向左。
-* 保证查找空间在每个步骤中至少有 3 个元素。
-* 需要进行后处理。 当剩下 2 个元素时，循环 / 递归结束。 需要评估其余元素是否符合条件。
-```
- function binarySearch(nums, target) {
-    if (nums == null || nums.length == 0) return -1;
-
-    var left = 0, right = nums.length - 1;
-    while (left + 1 < right){
-        var mid = Math.flor((right + left) / 2);
-        if (nums[mid] == target) {
-            return mid;
-        } else if (nums[mid] < target) {
-            left = mid;
-        } else {
-            right = mid;
-        }
-    }
-
-    if(nums[left] == target) return left;
-    if(nums[right] == target) return right;
-    return -1;
-}
-```
-
-------------------------------------------------------
 
 ## 1. 排序算法
 1. 冒泡排序: 双层循环，两两比较交换位置。复杂度 O(n^2)
@@ -105,48 +22,54 @@ const bubbleSort = (arr) => {
 }
 ```
 
-2. 快速排序: 复杂度 O(n*logn)
+2. 快速排序: 时间复杂度 O(nlogn)，空间复杂度 O(nlogn)
 ```
   const quick = function(array, left, right) {
-    let index;
-    if (array.length > 1) {
-      index = partition(array, left, right);
-      if (left < index - 1) {
-        quick(array, left, index - 1);
-      }
-      if (index < right) {
-        quick(array, index, right);
-      }
+    if (array.length <= 1) return;
+
+    // 循环一次后将数组分为两部分，但不同冒泡无法保证任何一个元素的准确位置。
+    let index = partition(array, left, right);
+
+    // 因为 partition 函数中 left > right，所以 left 到 index - 1 确定一个子数组
+    if (left < index - 1) {
+      quick(array, left, index - 1);
+    }
+
+    if (index < right) {
+      quick(array, index, right);
     }
   };
 
+  // 分区
   const partition = function(array, left, right) {
-    const pivot = array[Math.floor((right + left) / 2)];
-    let i = left;
-    let j = right;
-    while (i <= j) {
-      while (array[i] < pivot) {
-        i++;
+    const pivot = array[Math.floor((left + right) / 2)];
+
+    while (left <= right) {
+      while (array[left] < pivot) {
+        left++;
       }
-      while (array[j] > pivot) {
-        j--;
+      while (array[right] > pivot) {
+        right--;
       }
-      if (i <= j) {
-        swap(array, i, j);
-        i++;
-        j--;
+
+      if (left <= right) {
+        swap(array, left, right);
+
+        left++;
+        right--;
       }
     }
-    return i;
+    return left;
   };
 
-  const swap = (array, index1, index2) => {
-    [array[index1], array[index2]] = [array[index2], array[index1]];
+  const swap = (arr, i, j) => {
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 
   // quick(array, 0, array.length - 1);
 ```
 
+// 快速排序的另一种写法
 ```
 function qsort(arr, low, high) {
     if (low < high) {
@@ -179,6 +102,47 @@ function partition(arr, low, high) {
 function swap(arr, i, j) {
     [arr[i], arr[j]] = [arr[j], arr[i]]
 }
+```
+
+3. 堆排序, O(nlogn)
+```
+  function heapSort(array) {
+    var heapSize = array.length;
+
+    buildHeap(array);
+    while (heapSize > 1) {
+      heapSize--;
+      swap(array, 0, heapSize);
+      heapify(array, heapSize, 0);
+    }
+  };
+
+  function buildHeap(array) {
+    var heapSize = array.length;
+    for (var i = Math.floor(array.length / 2); i >= 0; i--) {
+      heapify(array, heapSize, i);
+    }
+  };
+
+  function heapify(array, heapSize, i) {
+    var left = i * 2 + 1,
+      right = i * 2 + 2,
+      largest = i;
+    if (left < heapSize && array[left] > array[largest]) {
+      largest = left;
+    }
+    if (right < heapSize && array[right] > array[largest]) {
+      largest = right;
+    }
+    if (largest !== i) {
+      swap(array, i, largest);
+      heapify(array, heapSize, largest);
+    }
+  }
+
+  function swap(arr, i, j) {
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
 ```
 
 ## 2. 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数的做索引组成的数组。你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。例子如下：
