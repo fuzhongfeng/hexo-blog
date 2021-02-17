@@ -110,12 +110,18 @@ function swap(arr, i, j) {
 * 将堆顶元素与末尾元素交换，将最大(或最小)元素放到数组末端;
 * 重新调整结构，使其满足堆定义。然后继续交换堆顶元素与当前末尾元素，反复执行调整+交换步骤，直到整个数组排序完成;
 ```
-  function heapSort(array) {
+ /**
+  * 排序
+  * @param {*} array 
+  * @param {*} k 排序 k 个元素，k >= 1 && k <= array.length。可解决 topK 问题
+  */
+  function heapSort(array, k) {
     var heapSize = array.length;
+    var limit = k !== undefined ? heapSize - k : 1
 
     // 构建堆
     buildHeap(array);
-    while (heapSize > 1) {
+    while (heapSize > limit) {
       heapSize--;
       // 将堆顶的根节点与末尾元素进行交换，剩余的元素反复执行便得到一个有序数组
       swap(array, 0, heapSize);
@@ -133,7 +139,7 @@ function swap(arr, i, j) {
     }
   };
 
-/**
+ /**
   * 构建堆需要满足的条件：
   * 大顶堆：array[i] >= array[2i+1] && array[i] >= array[2i+2]  
   * 小顶堆：array[i] <= array[2i+1] && array[i] <= arr[2i+2]
