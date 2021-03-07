@@ -1,7 +1,7 @@
 ---
-title: Performance
+title: http cache
 layout: post
-date: 2019-8-14 21:17:09
+date: 2021-3-7 23:35:23
 categories: Performance
 tags: Performance
 ---
