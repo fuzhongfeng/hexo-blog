@@ -370,3 +370,5 @@ getTree(data, '0');
 
   console.log(reverse(final)) // [1, 12, 2, 8, 3, 11, 4, 9, 5, 13, 6, 10, 7]
 ```
+
+## KMP 算法
