@@ -1,7 +1,7 @@
 ---
 title: http cache
 layout: post
-date: 2021-3-7 23:35:23
+date: 2022-1-23 20:47:00
 categories: Performance
 tags: Performance
 ---
@@ -32,10 +32,16 @@ private: 浏览器可以缓存，但是中间缓存不能
 1. 通过版本化 URL 确定的资源，如 html 中引用的 css、js、图片等资源文件，需要随时更新。
 * 通过 webpack contentHash 生成资源地址
 * 设置长时间使用强缓存：`Cache-Control: max-age=31536000`
-2. 不能通过版本化 URL 确定的资源，如 html 文件。（`https://xxx.com/index.2s19fg.html` 类似的地址显然是不合理的）。
-* 响应头设置 `Cache-Control: no-cache` 使用前与服务器重新验证
-* 响应头设置 `ETag` 字段来验证过期缓存资源
-
+2. 不能通过版本化 URL 确定的资源，如 html 文件。（`https://xxx.com/index.2s19fg.html` 类似的地址显然是不合理的）
+* 不使用强缓存：响应头设置 `Cache-Control: no-cache` 使用前与服务器重新验证
+* 设置协商缓存：响应头设置 `ETag` 字段来验证过期缓存资源
+```
+// nginx 配置
+location ~ .*\.(htm|html)$ {
+    add_header Cache-Control no-cache;
+    add_header Pragma no-cache;
+}
+```
 ## 设置及验证：
 这里给了一些 node express 服务器的配置、最佳实践方案、及验证方式：https://web.dev/codelab-http-cache
 
@@ -43,7 +49,7 @@ private: 浏览器可以缓存，但是中间缓存不能
 
 # chrome performance 
 ## performance.timing
-![](/images/timing.webp)
+![1](/images/timing.webp)
 ### 白屏
 白屏时间 = 地址栏输入网址后回车 - 浏览器出现第一个元素
 ```

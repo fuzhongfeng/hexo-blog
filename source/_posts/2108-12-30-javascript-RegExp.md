@@ -134,3 +134,8 @@ String.prototype.myTrim = function() {
     return this.replace(/(^\s+)|(\s+$)/g,'')
 }
 ```
+
+7. vue 源码中的 camelize 方法('abce-fgh-ijk' 转为小驼峰：'abceFghIjk')
+var camelize = function (str) {
+  return str.replace(/-(\w)/g, function (_, c) { return c ? c.toUpperCase() : '' })
+};
