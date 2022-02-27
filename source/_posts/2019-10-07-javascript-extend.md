@@ -31,7 +31,7 @@ Sub.prototype.getSubValue = function() {
 }
 
 var instance = new Sub()
-console.log(instance.getSuperValue())
+console.log(instance.getSuperValue()) // true
 ```
 
 * 原型链的问题: 
@@ -145,7 +145,7 @@ Object.create()
 
 
 ## 寄生式继承
-创建一个仅用于封装继承过程的函数，该 函数在内部以某种方式来增强对象，最后再像真地是它做了所有工作一样返回对象
+创建一个仅用于封装继承过程的函数，该函数在内部以某种方式来增强对象，最后再像真地是它做了所有工作一样返回对象
 * 实现：
 ```
 function createAnother(original){ 
@@ -185,6 +185,7 @@ function Sub(name, age){
 
 inheritPrototype(Sub, Super);
 
+// 调用inheritPrototype后，才能给子类原型上添加函数
 Sub.prototype.sayAge = function(){
     console.log(this.age);
 }
