@@ -177,3 +177,160 @@ class Person {
     }
 }
 ```
+
+5. 模拟实现一个JSON.stringify()
+1、明确各种类型 JSON.stringify 后的返回值：
+```
+// 基本类型
+JSON.stringify('a') // '"a"'
+JSON.stringify(6) // '6'
+JSON.stringify(null) // 'null'
+JSON.stringify(undefined) // undefined
+JSON.stringify(Symbol('a')) // undefined
+JSON.stringify(true) // 'true'
+JSON.stringify(NaN) // 'null'
+JSON.stringify(Infinity) // 'null'
+
+// 引用类型
+JSON.stringify([1, "false", false]); // '[1,"false",false]'
+JSON.stringify({ x: 5 }); // '{"x":5}'
+JSON.stringify({x: undefined, y: Object, z: Symbol("")}); // '{}'
+JSON.stringify(new Map()) // '{}'
+JSON.stringify(new Set()) // '{}'
+JSON.stringify(new Function()) // undefined
+JSON.stringify(new Error()) // '{}'
+JSON.stringify(new Date()) // '"2022-06-05T04:09:16.821Z"'
+JSON.stringify(
+    Object.create(
+        null,
+        {
+            x: { value: 'x', enumerable: false },
+            y: { value: 'y', enumerable: true }
+        }
+    )
+);
+// '{"y":"y"}' 不可枚举的对象属性值会被忽略
+var a = {}; a.b = a; JSON.stringify(a) // Uncaught TypeError: Converting circular structure to JSON
+```
+
+答：
+```
+const JSONStringify = (obj) => {
+
+  const isArray = (value) => {
+    return Array.isArray(value) && typeof value === 'object';
+  };
+
+  const isObject = (value) => {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
+  };
+
+  const isString = (value) => {
+    return typeof value === 'string';
+  };
+
+  const isBoolean = (value) => {
+    return typeof value === 'boolean';
+  };
+
+  const isNumber = (value) => {
+    return typeof value === 'number';
+  };
+
+  const isNull = (value) => {
+    return value === null && typeof value === 'object';
+  };
+
+  const isNotNumber = (value) => {
+    return typeof value === 'number' && isNaN(value);
+  };
+
+  const isInfinity = (value) => {
+    return typeof value === 'number' && !isFinite(value);
+  };
+
+  const isDate = (value) => {
+    return typeof value === 'object' && value !== null && typeof value.getMonth === 'function';
+  };
+
+  const isUndefined = (value) => {
+    return value === undefined && typeof value === 'undefined';
+  };
+
+  const isFunction = (value) => {
+    return typeof value === 'function';
+  };
+
+  const isSymbol = (value) => {
+    return typeof value === 'symbol';
+  };
+
+  const restOfDataTypes = (value) => {
+    return isNumber(value) || isString(value) || isBoolean(value);
+  };
+
+  const ignoreDataTypes = (value) => {
+    return isUndefined(value) || isFunction(value) || isSymbol(value);
+  };
+
+  const nullDataTypes = (value) => {
+    return isNotNumber(value) || isInfinity(value) || isNull(value);
+  }
+
+  const arrayValuesNullTypes = (value) => {
+    return isNotNumber(value) || isInfinity(value) || isNull(value) || ignoreDataTypes(value);
+  }
+
+  const removeComma = (str) => {
+    const tempArr = str.split('');
+    tempArr.pop();
+    return tempArr.join('');
+  };
+
+
+  if (ignoreDataTypes(obj)) {
+    return undefined;
+  }
+
+  if (isDate(obj)) {
+    return `"${obj.toISOString()}"`;
+  }
+
+  if(nullDataTypes(obj)) {
+    return `${null}`
+  }
+
+  if(isSymbol(obj)) {
+    return undefined;
+  }
+
+
+  if (restOfDataTypes(obj)) {
+    const passQuotes = isString(obj) ? `"` : '';
+    return `${passQuotes}${obj}${passQuotes}`;
+  }
+
+  if (isArray(obj)) {
+    let arrStr = '';
+    obj.forEach((eachValue) => {
+      arrStr += arrayValuesNullTypes(eachValue) ? JSONStringify(null) : JSONStringify(eachValue);
+      arrStr += ','
+    });
+
+    return  `[` + removeComma(arrStr) + `]`;
+  }
+
+  if (isObject(obj)) {
+      
+    let objStr = '';
+
+    const objKeys = Object.keys(obj);
+
+    objKeys.forEach((eachKey) => {
+        const eachValue = obj[eachKey];
+        objStr +=  (!ignoreDataTypes(eachValue)) ? `"${eachKey}":${JSONStringify(eachValue)},` : '';
+    });
+    return `{` + removeComma(objStr) + `}`;
+  }
+};
+```
