@@ -117,3 +117,71 @@ interface User {
   sex: string 
 }*/
 ```
+
+## 泛型
+1、利用泛型保证函数输入输出
+```
+function one<T>(a: T) : T{
+    return a;
+}
+
+let a1 = one<number>(1)
+```
+
+2、泛型数组
+```
+// Array<T> 同 T[]
+function two<T>(a: T[]) : T{
+    return a[0];
+}
+
+let a1 = two<number>([1,2,3])
+```
+
+3、泛型方法
+```
+let three : <T>(a : T[]) => T = function (a) {
+    return a[0];
+}
+
+three<number>([1,2,3])
+```
+
+4、泛型接口
+
+```
+interface IFunc<T> { 
+    <T>(a: T[]): T
+}
+
+let four: IFunc<number> = function (a) {
+    return a[0];
+}
+four([1,2,3])
+four<number>([1,2,3])
+```
+
+5、泛型类
+```
+class Person<T, U>{
+    other: T
+    age: U
+}
+
+let p = new Person<string,number>()
+p.other = "good men"
+p.age = 12
+```
+
+6、泛型集成接口
+```
+interface IParams { 
+    value: string
+}
+
+function test<T extends IParams>(obj: T): T['value'] {
+    return obj.value
+}
+
+test({ value: '666' })
+```

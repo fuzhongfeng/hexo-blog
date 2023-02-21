@@ -31,7 +31,7 @@ Sub.prototype.getSubValue = function() {
 }
 
 var instance = new Sub()
-console.log(instance.getSuperValue())
+console.log(instance.getSuperValue()) // true
 ```
 
 * 原型链的问题: 
@@ -185,6 +185,7 @@ function Sub(name, age){
 
 inheritPrototype(Sub, Super);
 
+// 调用inheritPrototype后，才能给子类原型上添加函数
 Sub.prototype.sayAge = function(){
     console.log(this.age);
 }
