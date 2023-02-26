@@ -29,11 +29,14 @@ interface ClockInterface {
 }
 
 class Clock implements ClockInterface {
+    // 必须包含interface中定义的字段
     currentTime: Date;
+    // interface 中未包含的字段可在class定义
+    name: string
     constructor() { }
 }
 ```
-5. class 可以通过 implements 实现 interface, interface 只检查类里的公共属性，静态和私有属性都不会检查
+5. class 可以通过 implements 实现 interface, interface 只检查类里的公共属性，静态和私有属性都不会检查。interface 中的字段 class 必须实现，interface 中的字段是 class 的子集。
 
 ## 类
 1. public修饰符，为默认值。
@@ -46,12 +49,29 @@ class Animal {
 
 new Animal("Cat").name; // 错误: 'name' 是私有的
 ```
-3. protected 修饰符，protected成员在派生类中仍然可以访问。
+3. protected 修饰符与 private只有一点不同:即 protected 成员在派生类中仍然可以访问。
 ```
+class Animal {
+    protected name: string;
+    constructor(theName: string) { this.name = theName; }
+    think() {
+      console.log(this.name)
+    }
+}
 
+class Cat extends Animal {
+  say() {
+    console.log(this.name)
+  }
+}
 ```
 4. readonly修饰符, 只读属性必须在声明时或构造函数里被初始化。
-5. 抽象类，抽象类做为其它派生类的基类使用。 它们一般不会直接被实例化。 不同于接口，抽象类可以包含成员的实现细节。 abstract关键字是用于定义抽象类和在抽象类内部定义抽象方法。
+5. 抽象类
+* 抽象类做为其它派生类的基类使用。
+* 不可以直接被实例化。
+* 不同于接口，抽象类可以包含成员的实现细节（也就是不添加abstract的方法）。接口不能包含成员的实现细节。
+* abstract关键字是用于定义抽象类和在抽象类内部定义抽象方法。
+* 抽象类中的抽象方法必须在派生类中实现。
 
 ## ts里 type 和 interface 的区别
 ### 相同点：
@@ -111,11 +131,21 @@ interface User {
   sex: string
 }
 
-/* User 接口为 {
+// User 接口为 
+// {
+//   name: string
+//   age: number
+//   sex: string 
+// }
+
+// 会报错，提示重复声明
+type User = {
   name: string
   age: number
-  sex: string 
-}*/
+}
+type User = {
+  sex: string
+}
 ```
 
 ## 泛型
